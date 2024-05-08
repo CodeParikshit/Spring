@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  
+
+   xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd"> 
+    
+    
+    <!-- creating first object of root -->
+    <bean id="routeObj1" class="model.Route">
+    <property name ="routeId" value="18"></property>
+        <property name ="routeName" value="Delhi"></property>
+    </bean>
+     <bean id="routeObj2" class="model.Route">
+    <property name ="routeId" value="20"></property>
+        <property name ="routeName" value="Banglore"></property>
+    </bean>
+    
+    <!-- creating object of Flight -->
+    <bean id="flightObj1"   class ="model.Flight">
+   	    <property name ="flightNumber" value="12345"></property>
+        <property name ="flightName" value="Indigo"></property>
+        <property name ="sourceLocation" value="Chennai"></property>    
+        <property name ="destLocation" value="Delhi"></property>
+        <property name="routes">
+        <list>
+        <ref bean="routeObj1"></ref>
+        <ref bean="routeObj2"></ref>
+        </list>
+        </property>
+    </bean>
+    
+    
+  <!--  <bean id="addressObj" class="model.Address">
+    <property name="streetNumber" value="22"></property>
+    <property name="cityName" value="Delhi"></property>
+    <property name="countryName" value="India"></property>
+    <property name="pinCode" value="444904"></property>
+    </bean>
+    
+    <bean id="customerObj1" class="model.Customer">
+    <property name="customerId" value="1234"></property>
+    <property name="customerName" value="Parikshit"></property>
+    <property name="customerEmail" value="arekarparikshit8@gmail.com"></property>
+    <property name="customerPhone">
+    <list>
+    <value>86564</value>
+    <value>541531</value>
+    </list>
+    </property>
+    <property name="address" ref="addressObj"></property>
+    
+</bean> -->
+
+</beans>
