@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.Springframework.org/schema/context"
+       xmlns:p="http://www.Springframework.org/schema/p"
+       xmlns:tx="http://www.Springframework.org/schema/tx"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.Springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.Springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd">
+           
+           
+           <tx:annotation-driven/>
+           
+           <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="dataSourceObj">
+           <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+           <property name="url" value="jdbc:mysql://localhost:3306/springjdbc"></property>
+           <property name="username" value="root"/>
+           <property name="password" value="Parikshit@1"/>
+           </bean>
+           
+           
+           <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" name="localSessionObj">
+<!--ab ye localsessionFactory ke dataSource ke property hai to hume dataSource, hibernateProperties aur annotationclasses ka obj dena padenga-->
+           <property name="dataSource" ref="dataSourceObj"></property>
+           
+           
+           	 <property name="hibernateProperties">
+           <!--abb hibernate ke properties hai -->
+          	 	<props>
+           			<prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
+           			<prop key="hibernate.show_sql">true</prop>
+           			<prop key="hibernate.hbm2ddl.auto">update</prop>
+           	 	</props>
+           	 </property>
+           	 
+           	 <property name="annotatedClasses">
+           	 <list>
+           	 <value>com.Spring.ORM.entities.Student</value>
+           	 </list>
+           	 </property>
+           	 
+           </bean>
+           
+           
+
+		<bean class="org.springframework.orm.hibernate5.HibernateTemplate" name="hibernateTemplateObj">
+<!--abb hibernate template implements karta hai SessionFactory class ko to hume sessionFactory class ka object create karna padenga-->
+<!--par ye sessionFactory interface hai hum object nhi bana sakte to ye session factory implements karta hai localSessionFactory ko-->
+<!--to hume localSessionFactory ka object bana padenga-->
+		<property name="sessionFactory" ref="localSessionObj"></property>
+		</bean>
+
+
+       <bean class="com.Spring.ORM.dao.StudentDao" name="studentDao">
+<!-- student class implement kar rahi hai hibernate template class ko iss liye hibernate template ka object create karna padenga -->
+<!-- abb ye jo hibernateTemplateObj ye object hai hibernate template class ka ye apni puri properties de denga name="hibernateTemplate ko -->
+       <property name="hibernateTemplate" ref="hibernateTemplateObj"></property>
+       </bean>    
+       
+       <bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transictionManager">
+       <property name="dataSource" ref="localSessionObj"/>
+       </bean>
+</beans>
+           
